@@ -33,9 +33,9 @@ public class Container {
     private String gevaar;
     private String ISO;
     
-    private int x;
-    private int y;
-    private int z;
+    public int x;
+    public int y;
+    public int z;
     
     private int dag;
     private int maand;
@@ -72,6 +72,9 @@ public class Container {
         this.dag = dag;
         this.maand = maand;
         this.jaar = jaar;
+    }
+    public Container(){
+        
     }
     
     public String getAankomst_datum(){ return this.aankomst_datum; }
