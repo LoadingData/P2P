@@ -15,6 +15,13 @@ import java.util.List;
  */
 public class Storage {
 
+    /*
+     * vrachtauto's (47%), treinen (8%),  zeevaart (20%) en binnenvaart (25%). 
+     */
+    public final String transportVrachtwagen = "vrachtwagen"; //depot 24-45
+    public final String transportBinnenschip = "binnenschip"; //depot 13-23
+    public final String transportZeeschip = "zeeschip"; //depot 6-12
+    public final String transportTrein = "trein"; //depot 1-5
     int numberOfDepots = 45;
     List<ContainerDepot> containerDepots = new LinkedList<>();
 
@@ -25,10 +32,59 @@ public class Storage {
 
     }
 
-    public int[] storeContainer(Container container) {
+    public int checkAvailableDepot(Container container) {
 
+        boolean availablePosition = false;
+        int depotRow = 1;
+        Date currentContainerDate = container.getDeparture_date();
+        String transportType = container.getVertrek_vervoer();
+
+        if (transportTrein.equals(transportType)) {
+            depotRow = 1;
+        }
+
+        if (transportZeeschip.equals(transportType)) {
+            depotRow = 6;
+        }
+
+        if (transportBinnenschip.equals(transportType)) {
+            depotRow = 13;
+        }
+
+        if (transportVrachtwagen.equals(transportType)) {
+            depotRow = 24;
+        }
+
+        while (availablePosition == false) {
+            for (int y = 0; y < 6; y++) {
+                for (int x = 0; x < 6; x++) {
+                    for (int z = 0; z < 20; z++) {
+
+                        /*
+                         * Check for available positions
+                         */
+                        if (y > 0 && currentContainerDate.before(containerDepots.get(depotRow).containerCluster[x][y - 1][z].getDeparture_date())
+                                && containerDepots.get(depotRow).containerCluster[x][y - 1][z] == null) {
+                            if (containerDepots.get(depotRow).containerCluster[x][y][z] == null) {
+                                availablePosition = true;
+                            }
+                        } else if (containerDepots.get(depotRow).containerCluster[x][y][z] == null) {
+                            availablePosition = true;
+                        }
+                    }
+                }
+            }
+            depotRow++;
+
+        }
+        return depotRow;
+    }
+
+    public int[] storeContainer(Container container, int depotRow) {
+        
         int[] position = null;
         Date currentContainerDate = container.getDeparture_date();
+
         for (int y = 0; y < 6; y++) {
             for (int x = 0; x < 6; x++) {
                 for (int z = 0; z < 20; z++) {
@@ -36,16 +92,17 @@ public class Storage {
                     /*
                      * If y > 0 and containerdate comes before the one below it, fill the position with the current container.
                      * Else, if y == 0 and the position is empty, fill it with the current container.
+                     * If there are no positions available, go to the next cluster.
                      */
 
-                    if (y > 0 && currentContainerDate.before(containerDepots.get(1).containerCluster[x][y - 1][z].getDeparture_date())
-                            && containerDepots.get(1).containerCluster[x][y - 1][z] != null) {
-                        if (containerDepots.get(1).containerCluster[x][y][z] == null) {
-                            containerDepots.get(1).containerCluster[x][y][z] = container;
+                    if (y > 0 && currentContainerDate.before(containerDepots.get(depotRow).containerCluster[x][y - 1][z].getDeparture_date())
+                            && containerDepots.get(depotRow).containerCluster[x][y - 1][z] != null) {
+                        if (containerDepots.get(depotRow).containerCluster[x][y][z] == null) {
+                            containerDepots.get(depotRow).containerCluster[x][y][z] = container;
                             Arrays.fill(position, x, y, z);
                         }
-                    } else if (containerDepots.get(1).containerCluster[x][y][z] == null) {
-                        containerDepots.get(1).containerCluster[x][y][z] = container;
+                    } else if (containerDepots.get(depotRow).containerCluster[x][y][z] == null) {
+                        containerDepots.get(depotRow).containerCluster[x][y][z] = container;
                         Arrays.fill(position, x, y, z);
                     }
                 }
