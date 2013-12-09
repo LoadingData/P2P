@@ -18,10 +18,10 @@ public class Storage {
     /*
      * vrachtauto's (47%), treinen (8%),  zeevaart (20%) en binnenvaart (25%). 
      */
-    public final String transportVrachtwagen = "vrachtwagen"; //depot 24-45
-    public final String transportBinnenschip = "binnenschip"; //depot 13-23
-    public final String transportZeeschip = "zeeschip"; //depot 6-12
-    public final String transportTrein = "trein"; //depot 1-5
+    public final String transportTruck = "vrachtwagen"; //depot 24-45
+    public final String transportInlandShip = "binnenschip"; //depot 13-23
+    public final String transportSeaShip = "zeeschip"; //depot 6-12
+    public final String transportTrain = "trein"; //depot 1-5
     int numberOfDepots = 45;
     List<ContainerDepot> containerDepots = new LinkedList<>();
 
@@ -39,19 +39,19 @@ public class Storage {
         Date currentContainerDate = container.getDeparture_date();
         String transportType = container.getVertrek_vervoer();
 
-        if (transportTrein.equals(transportType)) {
+        if (transportTrain.equals(transportType)) {
             depotRow = 1;
         }
 
-        if (transportZeeschip.equals(transportType)) {
+        if (transportSeaShip.equals(transportType)) {
             depotRow = 6;
         }
 
-        if (transportBinnenschip.equals(transportType)) {
+        if (transportInlandShip.equals(transportType)) {
             depotRow = 13;
         }
 
-        if (transportVrachtwagen.equals(transportType)) {
+        if (transportTruck .equals(transportType)) {
             depotRow = 24;
         }
 
@@ -143,7 +143,6 @@ public class Storage {
                         Arrays.fill(position, x, y, z);
                         container = containerDepots.get(1).containerCluster[x][y][z];
                         containerDepots.get(1).containerCluster[x][y][z] = null;
-
                     }
 
                 }
