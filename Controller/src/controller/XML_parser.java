@@ -240,4 +240,10 @@ public class XML_parser {
     {
         return containerArray;
     }
+    
+    //dit is alleen voor de test!
+    public Map info()
+    {
+        return info_map;
+    }
 }

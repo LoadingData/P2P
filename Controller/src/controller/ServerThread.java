@@ -30,42 +30,42 @@ public ServerThread(Socket socket, ArrayList<Container> containerArray) throws I
 }
 
 public void run() 
-{
+{   
     showmsg("Accepted connection : " + socket.getInetAddress().getHostName());
-    try {    
-        sendContainer();
-       // sendAGV();
+    try {
+        out = new ObjectOutputStream(socket.getOutputStream());
+        out.flush();
+        in = new ObjectInputStream(socket.getInputStream());
+        
+        out.writeObject("lekker jongen");
+        out.flush();
+//        out.writeObject("die frikandellen");
+//        out.flush();
+        
+        readMessage();
+        out.writeObject("nog lekkerder");
+        out.flush();
+        
+         out.writeObject("nog of niet");
+        out.flush();
+         out.writeObject("nog meer boten");
+        out.flush();
+         out.writeObject("nog meer VEEL MEER BOTEN");
+        out.flush();
     } catch (IOException ex) {
+        ex.printStackTrace();                
+    } catch (ClassNotFoundException ex) {
         Logger.getLogger(ServerThread.class.getName()).log(Level.SEVERE, null, ex);
     }
-   
-    
-
-}
-
-//private void sendShip() throws IOException
-//{
-//    ObjectOutputStream oos = new ObjectOutputStream(
-//    socket.getOutputStream());
-//    
-//}
-void sendContainer() throws IOException
-{
-    out = new ObjectOutputStream(socket.getOutputStream());
-    out.flush();
-    in = new ObjectInputStream(socket.getInputStream());
-
-    sendMessage("Connectie blijf niet open staan.");
     
 }
 
-void sendAGV() throws IOException
-{
-    out = new ObjectOutputStream(socket.getOutputStream());
-    out.flush();
-    in = new ObjectInputStream(socket.getInputStream());
 
-    sendMessage("nu WEL!.");
+void readMessage() throws IOException, ClassNotFoundException
+{    
+    String message;
+    message = (String)in.readObject();
+    System.out.println(message);
 }
 
 void sendMessage(String msg)

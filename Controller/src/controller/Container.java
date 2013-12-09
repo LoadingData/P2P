@@ -10,9 +10,9 @@ import java.util.Date;
  *
  * @author Jeroen
  */
-public class Container {
+public class Container  {
     
-    // EVT. PUBLIC FINAL? VRAGEN AAN JOS;
+    // 
     
     private String aankomst_datum;
     private String aankomst_tijd;
@@ -103,11 +103,11 @@ public class Container {
        
     public Date getDeparture_date()
     {
-        vertrek_date.setDate(dag);
-        vertrek_date.setMonth(maand);
-        vertrek_date.setYear(jaar);
-        return vertrek_date;
-        
+//        vertrek_date.setDate(dag);
+//        vertrek_date.setMonth(maand);
+//        vertrek_date.setYear(jaar);
+        Date departure = new Date(jaar,maand,dag);
+        return departure;        
     }
        
     
