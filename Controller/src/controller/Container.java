@@ -4,7 +4,9 @@
  */
 package controller;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -19,7 +21,7 @@ public class Container  {
     private String aankomst_vervoer;
     private String aankomst_bedrijf;
     
-    private String vertrek_datum;
+    public String vertrek_datum;
     private String vertrek_tijd;
     private String vertrek_vervoer;
     private String vertrek_bedrijf;
@@ -101,13 +103,14 @@ public class Container  {
     public int getZ(){ return this.z; }
     
        
-    public Date getDeparture_date()
+    public Calendar getDeparture_date()
     {
 //        vertrek_date.setDate(dag);
 //        vertrek_date.setMonth(maand);
 //        vertrek_date.setYear(jaar);
-        Date departure = new Date(jaar,maand,dag);
-        return departure;        
+        
+        Calendar calendar = new GregorianCalendar(jaar,maand,dag,12,40,40);
+        return calendar;       
     }
        
     
